@@ -4,7 +4,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Comics from "./containers/Comics";
 import Characters from "./containers/Characters";
+import CharacterComics from "./containers/CharacterComics";
+import SearchCharacterResults from "./containers/SearchCharacterResults";
+import SearchComicsResults from "./containers/SearchComicsResults";
 import "./App.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+library.add(faSearch);
 
 function App() {
   return (
@@ -15,8 +21,17 @@ function App() {
         </header>
         <main>
           <Switch>
+            <Route path="/comics/search">
+              <SearchComicsResults />
+            </Route>
+            <Route path="/characters/search">
+              <SearchCharacterResults />
+            </Route>
             <Route path="/comics">
               <Comics />
+            </Route>
+            <Route path="/:id/comics">
+              <CharacterComics />
             </Route>
             <Route exact path="/">
               <Characters />

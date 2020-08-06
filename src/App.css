@@ -1,3 +1,7 @@
+:root {
+  --black-: #202020;
+}
+
 body {
   font-family: "Sora", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -6,4 +10,29 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+header {
+  background-color: var(--black-);
+  display: flex;
+  flex-direction: column;
+}
+
+.header ul {
+  display: flex;
+}
+
+.header li a {
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+}
+
+.card img {
+  width: 150px;
 }
