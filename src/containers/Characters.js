@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import SearchCharacter from "../components/SearchCharacter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";
 
 const Characters = () => {
-  const history = useHistory();
   // Récupérer les favoris (string) en cookies
   const favoritesCookiesStr = Cookies.get("favorites");
   // console.log("Cookies présents (string): ", favoritesCookiesStr);
