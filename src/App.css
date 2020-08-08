@@ -46,7 +46,7 @@ button {
 
 header {
   background-color: var(--grey-80);
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
   margin-bottom: 40px;
 }
 
@@ -93,7 +93,7 @@ header {
   cursor: pointer;
 }
 
-.heading {
+#heading {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,7 +159,7 @@ h1 {
 }
 
 .card {
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 .card img {
@@ -199,17 +199,29 @@ h1 {
   z-index: 1;
   margin: 10px;
   right: 0;
-  background-color: white;
   border: none;
   width: 30px;
   height: 30px;
   vertical-align: middle;
-  color: var(--grey-80);
   transition: 0.2s;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
 }
 
-.favoriteButton:hover {
+.isFavorite {
+  background-color: var(--red-);
+  color: white;
+}
+
+.isFavorite:hover {
+  background-color: var(--red-20);
+}
+
+.isNotFavorite {
+  background-color: white;
+  color: var(--grey-80);
+}
+
+.isNotFavorite:hover {
   background-color: var(--grey-20);
 }
 
