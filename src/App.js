@@ -9,35 +9,42 @@ import SearchCharacterResults from "./containers/SearchCharacterResults";
 import SearchComicsResults from "./containers/SearchComicsResults";
 import "./App.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-library.add(faSearch);
+import {
+  faSearch,
+  faBolt,
+  faBookOpen,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
+library.add(faSearch, faBolt, faBookOpen, faArrowRight);
 
 function App() {
   return (
     <>
       <Router>
-        <header>
-          <Header className="header" />
-        </header>
-        <main>
-          <Switch>
-            <Route path="/comics/search">
-              <SearchComicsResults />
-            </Route>
-            <Route path="/characters/search">
-              <SearchCharacterResults />
-            </Route>
-            <Route path="/comics">
-              <Comics />
-            </Route>
-            <Route path="/:id/comics">
-              <CharacterComics />
-            </Route>
-            <Route exact path="/">
-              <Characters />
-            </Route>
-          </Switch>
-        </main>
+        <div id="content">
+          <header>
+            <Header className="header container" />
+          </header>
+          <main>
+            <Switch>
+              <Route path="/comics/search">
+                <SearchComicsResults />
+              </Route>
+              <Route path="/characters/search">
+                <SearchCharacterResults />
+              </Route>
+              <Route path="/comics">
+                <Comics />
+              </Route>
+              <Route path="/:id/comics">
+                <CharacterComics />
+              </Route>
+              <Route exact path="/">
+                <Characters />
+              </Route>
+            </Switch>
+          </main>
+        </div>
         <footer className="footer">
           <Footer
             technoLink="https://fr.reactjs.org/"

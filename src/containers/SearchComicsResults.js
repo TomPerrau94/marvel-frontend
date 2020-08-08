@@ -11,8 +11,37 @@ const SearchComicsResults = () => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  // Récupération de la data du serveur
+  // Pagination
+  const pagination = (total, limit) => {
+    const pages = [];
+    for (let i = 0; i < total; i += limit) {
+      let pageNumber = i / limit + 1;
+      pages.push(
+        <button
+          key={i}
+          onClick={async () => {
+            try {
+              const response = await axios.get(
+                `https://marvel-backend-tom.herokuapp.com/comics/search?titleStartsWith=${search}&offset=${i}`
+              );
+              setData(response.data);
+              console.log(response.data);
+              setIsLoading(false);
+              console.log("Data is loaded");
+            } catch (error) {
+              console.log(error.message);
+            }
+          }}
+        >
+          {pageNumber}
+        </button>
+      );
+    }
 
+    return pages;
+  };
+
+  // Récupération de la data du serveur
   // Charger la data récupérée sur le serveur
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +95,9 @@ const SearchComicsResults = () => {
             </div>
           );
         })}
+      </div>
+      <div className="pagination">
+        {pagination(data.data.total, data.data.limit)}
       </div>
     </div>
   );

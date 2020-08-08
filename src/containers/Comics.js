@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchComics from "../components/SearchComics";
 
 const Comics = () => {
@@ -62,13 +63,35 @@ const Comics = () => {
     </div>
   ) : (
     <div className="container">
+      <div className="heading">
+        <div className="headingLine"></div>
+        <h1>
+          Explore <span className="red">comics</span> from Marvel's universe
+        </h1>
+      </div>
       <div className="searchContainer">
         <SearchComics setData={setData} />
       </div>
       <div className="comicsList">
         {data.data.results.map((comic, index) => {
           return (
-            <div className="comic card" key={index}>
+            <div className="comic card relative" key={index}>
+              <button className="favoriteButton">
+                <FontAwesomeIcon icon="bolt" />
+              </button>
+              <div className="comicInfos">
+                <div className="comicMoreInfos">
+                  {comic.description ? (
+                    <span className="comicDescription">
+                      {comic.description}
+                    </span>
+                  ) : (
+                    <span className="comicDescription--missing">
+                      No description
+                    </span>
+                  )}
+                </div>
+              </div>
               {comic.images.length > 0 ? (
                 <img
                   src={`${comic.images[0].path}.${comic.images[0].extension}`}
@@ -80,14 +103,9 @@ const Comics = () => {
                   alt=""
                 />
               )}
-              <span className="comicTitle">{comic.title}</span>
-              {comic.description ? (
-                <span className="comicDescription">{comic.description}</span>
-              ) : (
-                <span className="comicDescription--missing">
-                  Pas de description
-                </span>
-              )}
+              <div className="comicTitleContainer">
+                <span className="comicTitle">{comic.title.toString()}</span>
+              </div>
             </div>
           );
         })}

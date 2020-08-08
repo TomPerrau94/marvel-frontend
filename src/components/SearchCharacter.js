@@ -19,15 +19,17 @@ const SearchCharacter = () => {
   return (
     <form onSubmit={handleSubmit} className="searchForm">
       <div className="relative">
-        <FontAwesomeIcon icon="search" />
         <input
           type="text"
           name="search"
           onChange={handleSearchChange}
-          placeholder="Rechercher un personnage..."
+          placeholder="Search a character..."
         />
+        <span className="searchIcon">
+          <FontAwesomeIcon icon="search" />
+        </span>
         <button type="submit" className="primaryButton">
-          Rechercher
+          Search
         </button>
       </div>
     </form>
