@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SearchCharacter from "../components/SearchCharacter";
 import Character from "../components/Character";
-
+import Loading from "../components/loadingAnimation.svg";
 import Cookies from "js-cookie";
 
 const Characters = () => {
@@ -70,12 +70,13 @@ const Characters = () => {
   }, []);
 
   return isLoading ? (
-    <div className="container">
-      <span>Data is loading</span>
+    <div className="container loading">
+      <div className="loadingContainer"></div>
+      <img src={Loading} alt=""></img>
     </div>
   ) : (
     <div className="container">
-      <div id="heading">
+      <div className="heading">
         <div className="headingLine"></div>
         <h1>
           Explore <span className="red">characters</span> from Marvel's universe

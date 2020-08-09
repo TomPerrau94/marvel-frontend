@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SearchCharacter from "../components/SearchCharacter";
+import Character from "../components/Character";
+import Cookies from "js-cookie";
+import Loading from "../components/loadingAnimation.svg";
 
 const SearchCharacterResults = () => {
   const location = useLocation();
   const { search } = location.state;
-  const history = useHistory();
+
+  // Récupérer les favoris en cookies (string)
+  const favoritesCookies = Cookies.get("favoriteCharacters");
+
+  // Créer un tableau contenant les favoris en cookies
+  let favoritesCookiesArr;
+  if (favoritesCookies) {
+    favoritesCookiesArr = favoritesCookies.split("-");
+  }
 
   // Déclaration des states
   const [data, setData] = useState({});
@@ -23,7 +34,7 @@ const SearchCharacterResults = () => {
           onClick={async () => {
             try {
               const response = await axios.get(
-                `https://marvel-backend-tom.herokuapp.com/comics/search?titleStartsWith=${search}&offset=${i}`
+                `https://marvel-backend-tom.herokuapp.com/characters/search?titleStartsWith=${search}&offset=${i}`
               );
               setData(response.data);
               console.log(response.data);
@@ -62,38 +73,33 @@ const SearchCharacterResults = () => {
     fetchData();
   }, [search]);
   return isLoading ? (
-    <div className="container">
-      <span>Data is loading</span>
+    <div className="container loading">
+      <div className="loadingContainer"></div>
+      <img src={Loading} alt=""></img>
     </div>
   ) : (
     <div className="container">
+      <div className="heading">
+        <h1>Character Search results</h1>
+      </div>
       <div className="searchContainer">
         <SearchCharacter setData={setData} />
       </div>
-      <div className="charactersResults">
+      <div className="charactersList">
         {data.data.results.map((character, index) => {
           return (
-            <div
-              className="character card"
-              key={index}
-              onClick={() => {
-                history.push(`/${character.id}/comics`);
-              }}
-            >
-              <img
-                src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
-                alt=""
+            <div className="character card relative" key={index}>
+              <Character
+                character={character}
+                isFavorite={
+                  !favoritesCookiesArr
+                    ? false
+                    : favoritesCookiesArr.indexOf(character.id.toString()) !==
+                      -1
+                    ? true
+                    : false
+                }
               />
-              <span className="characterName">{character.name}</span>
-              {character.description ? (
-                <span className="characterDescription">
-                  {character.description}
-                </span>
-              ) : (
-                <span className="characterDescription--missing">
-                  Pas de description
-                </span>
-              )}
             </div>
           );
         })}

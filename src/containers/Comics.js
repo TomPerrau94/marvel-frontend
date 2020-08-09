@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Cookies from "js-cookie";
 import SearchComics from "../components/SearchComics";
+import Comic from "../components/Comic";
+import Loading from "../components/loadingAnimation.svg";
 
 const Comics = () => {
+  // Récupérer les favoris en cookies (string)
+  const favoritesCookies = Cookies.get("favoriteComics");
+
+  // Créer un tableau contenant les favoris en cookies
+  let favoritesCookiesArr;
+  if (favoritesCookies) {
+    favoritesCookiesArr = favoritesCookies.split("-");
+  }
+
   // Déclaration des states
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -58,8 +69,9 @@ const Comics = () => {
   }, []);
 
   return isLoading ? (
-    <div className="container">
-      <span>Data is loading</span>
+    <div className="container loading">
+      <div className="loadingContainer"></div>
+      <img src={Loading} alt=""></img>
     </div>
   ) : (
     <div className="container">
@@ -76,36 +88,16 @@ const Comics = () => {
         {data.data.results.map((comic, index) => {
           return (
             <div className="comic card relative" key={index}>
-              <button className="favoriteButton">
-                <FontAwesomeIcon icon="bolt" />
-              </button>
-              <div className="comicInfos">
-                <div className="comicMoreInfos">
-                  {comic.description ? (
-                    <span className="comicDescription">
-                      {comic.description}
-                    </span>
-                  ) : (
-                    <span className="comicDescription--missing">
-                      No description
-                    </span>
-                  )}
-                </div>
-              </div>
-              {comic.images.length > 0 ? (
-                <img
-                  src={`${comic.images[0].path}.${comic.images[0].extension}`}
-                  alt=""
-                />
-              ) : (
-                <img
-                  src="http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
-                  alt=""
-                />
-              )}
-              <div className="comicTitleContainer">
-                <span className="comicTitle">{comic.title.toString()}</span>
-              </div>
+              <Comic
+                comic={comic}
+                isFavorite={
+                  !favoritesCookiesArr
+                    ? false
+                    : favoritesCookiesArr.indexOf(comic.id.toString()) !== -1
+                    ? true
+                    : false
+                }
+              />
             </div>
           );
         })}

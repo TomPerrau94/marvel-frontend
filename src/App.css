@@ -31,6 +31,11 @@ a {
   margin: 0 auto;
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
 button {
   cursor: pointer;
   font-family: "Barlow", sans-serif;
@@ -93,7 +98,7 @@ header {
   cursor: pointer;
 }
 
-#heading {
+.heading {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,6 +110,12 @@ h1 {
   font-weight: 700;
   text-align: center;
   padding: 1rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 
 .headingLine {
@@ -305,6 +316,7 @@ h1 {
 .pagination {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .pagination button {
@@ -333,4 +345,8 @@ h1 {
 
 .footer a:hover {
   color: var(--grey-20);
+}
+
+.favoritesList {
+  margin-bottom: 30px;
 }

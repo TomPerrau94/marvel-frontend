@@ -7,6 +7,7 @@ import Characters from "./containers/Characters";
 import CharacterComics from "./containers/CharacterComics";
 import SearchCharacterResults from "./containers/SearchCharacterResults";
 import SearchComicsResults from "./containers/SearchComicsResults";
+import Favorites from "./containers/Favorites";
 import "./App.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -30,14 +31,17 @@ function App() {
               <Route path="/comics/search">
                 <SearchComicsResults />
               </Route>
-              <Route path="/characters/search">
-                <SearchCharacterResults />
-              </Route>
               <Route path="/comics">
                 <Comics />
               </Route>
+              <Route path="/characters/search">
+                <SearchCharacterResults />
+              </Route>
               <Route path="/:id/comics">
                 <CharacterComics />
+              </Route>
+              <Route path="/favorites">
+                <Favorites />
               </Route>
               <Route exact path="/">
                 <Characters />

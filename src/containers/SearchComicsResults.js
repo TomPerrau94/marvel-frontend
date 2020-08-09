@@ -2,10 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import SearchComics from "../components/SearchComics";
+import Loading from "../components/loadingAnimation.svg";
+import Cookies from "js-cookie";
+import Comic from "../components/Comic";
 
 const SearchComicsResults = () => {
   const location = useLocation();
   const { search } = location.state;
+
+  // Récupérer les favoris en cookies (string)
+  const favoritesCookies = Cookies.get("favoriteComics");
+
+  // Créer un tableau contenant les favoris en cookies
+  let favoritesCookiesArr;
+  if (favoritesCookies) {
+    favoritesCookiesArr = favoritesCookies.split("-");
+  }
 
   // Déclaration des states
   const [data, setData] = useState({});
@@ -61,37 +73,30 @@ const SearchComicsResults = () => {
     fetchData();
   }, [search]);
   return isLoading ? (
-    <div className="container">
-      <span>Data is loading</span>
+    <div className="container loading">
+      <div>
+        <img src={Loading} alt=""></img>
+      </div>
     </div>
   ) : (
     <div className="container">
       <div className="searchContainer">
         <SearchComics setData={setData} />
       </div>
-      <div className="comicsResults">
+      <div className="comicsList">
         {data.data.results.map((comic, index) => {
           return (
-            <div className="comic card" key={index}>
-              {comic.images.length > 0 ? (
-                <img
-                  src={`${comic.images[0].path}.${comic.images[0].extension}`}
-                  alt=""
-                />
-              ) : (
-                <img
-                  src="http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
-                  alt=""
-                />
-              )}
-              <span className="comicTitle">{comic.title}</span>
-              {comic.description ? (
-                <span className="comicDescription">{comic.description}</span>
-              ) : (
-                <span className="comicDescription--missing">
-                  Pas de description
-                </span>
-              )}
+            <div className="comic card relative" key={index}>
+              <Comic
+                comic={comic}
+                isFavorite={
+                  !favoritesCookiesArr
+                    ? false
+                    : favoritesCookiesArr.indexOf(comic.id.toString()) !== -1
+                    ? true
+                    : false
+                }
+              />
             </div>
           );
         })}

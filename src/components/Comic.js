@@ -1,42 +1,36 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";
 
-const Character = ({ character, isFavorite }) => {
+const Character = ({ comic, isFavorite }) => {
   // Déclaration des states
   const [favoriteCheck, setFavoriteCheck] = useState(isFavorite);
 
   // Gérer l'ajout des favoris au cookies
-  const handleFavorite = (character) => {
+  const handleFavorite = (comic) => {
     // Récuperer les cookies existants (string)
-    const cookies = Cookies.get("favoriteCharacters");
+    const cookies = Cookies.get("favoriteComics");
 
     // Créer un cookie s'il n'y en a pas déjà
     if (!cookies) {
-      Cookies.set("favoriteCharacters", `${character.id}-`, {
+      Cookies.set("favoriteComics", `${comic.id}-`, {
         expires: 7,
       });
     } else {
       // Recréer un tableau à partir des cookies
       const cookiesArr = cookies.split("-");
 
-      // Checker si l'id du character est absent dans ce tableau, si c'est le cas on rajoute l'id à la string déjà présente dans les cookies
-      const favoriteExistsInCookies = cookiesArr.indexOf(
-        character.id.toString()
-      );
+      // Checker si l'id du comic est absent dans ce tableau, si c'est le cas on rajoute l'id à la string déjà présente dans les cookies
+      const favoriteExistsInCookies = cookiesArr.indexOf(comic.id.toString());
       if (favoriteExistsInCookies === -1) {
-        Cookies.set(
-          "favoriteCharacters",
-          `${cookies}${character.id.toString()}-`
-        );
+        Cookies.set("favoriteComics", `${cookies}${comic.id.toString()}-`);
       } else {
         // Si l'id est déjà présent, on le supprime du tableau créé
         cookiesArr.splice(favoriteExistsInCookies, 1);
 
         // On recrée une string avec les éléments mise à jour de ce tableau pour la mettre en cookies
         const newCookies = cookiesArr.join("-");
-        Cookies.set("favoriteCharacters", newCookies, { expires: 7 });
+        Cookies.set("favoriteComics", newCookies, { expires: 7 });
       }
     }
   };
@@ -50,28 +44,34 @@ const Character = ({ character, isFavorite }) => {
             : "favoriteButton isNotFavorite"
         }
         onClick={() => {
-          handleFavorite(character);
+          handleFavorite(comic);
           setFavoriteCheck(!favoriteCheck);
         }}
       >
         <FontAwesomeIcon icon="bolt" />
       </button>
-      <div className="characterInfos">
-        <img
-          src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
-          alt=""
-        />
-        <div className="characterNameContainer">
-          <span className="characterName">{character.name}</span>
+      <div className="comicInfos">
+        <div className="comicMoreInfos">
+          {comic.description ? (
+            <span className="comicDescription">{comic.description}</span>
+          ) : (
+            <span className="comicDescription--missing">No description</span>
+          )}
         </div>
       </div>
-      <div className="characterMoreInfos">
-        {character.description ? (
-          <span className="characterDescription">{character.description}</span>
-        ) : (
-          <span className="characterDescription--missing">No description</span>
-        )}
-        <Link to={`/${character.id}/comics`}>View comics</Link>
+      {comic.images.length > 0 ? (
+        <img
+          src={`${comic.images[0].path}.${comic.images[0].extension}`}
+          alt=""
+        />
+      ) : (
+        <img
+          src="http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
+          alt=""
+        />
+      )}
+      <div className="comicTitleContainer">
+        <span className="comicTitle">{comic.title.toString()}</span>
       </div>
     </>
   );
