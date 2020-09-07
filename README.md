@@ -1,5 +1,9 @@
 # Marvel Front End
 
+React-based application making use of [marvel developer api](https://developer.marvel.com/) to display characters and comics data.
+
+Try it here 👉 https://marvel-tom.netlify.app/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
